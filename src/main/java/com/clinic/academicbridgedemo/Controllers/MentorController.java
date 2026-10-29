@@ -1,6 +1,8 @@
 package com.clinic.academicbridgedemo.Controllers;
 
 import com.clinic.academicbridgedemo.Domain.Mentor;
+import com.clinic.academicbridgedemo.Repo.LearningHubRepository;
+import com.clinic.academicbridgedemo.services.LearningHubService;
 import com.clinic.academicbridgedemo.services.MentorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ public class MentorController {
     @Autowired
     private MentorService mentorService;
 
+
     @GetMapping(value = "/all")
      public List<Mentor> getAllMentors(){
        return mentorService.getAllMentors();
@@ -29,6 +32,10 @@ public class MentorController {
     @PutMapping(value = "/{mentorId}/fields/{fieldId}")
     public String addField(@PathVariable UUID mentorId, @PathVariable UUID fieldId){
         return mentorService.addField(mentorId,fieldId);
+    }
+    @PatchMapping(value = "/{mentorId}/learning-hub")
+    public String moveMentor(@PathVariable UUID mentorId, @RequestParam int hubNumber){
+        return mentorService.moveMentor(mentorId, hubNumber);
     }
 
     @PostMapping(value = "/save")
