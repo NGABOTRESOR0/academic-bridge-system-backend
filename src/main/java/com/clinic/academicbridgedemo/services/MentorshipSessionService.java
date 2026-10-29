@@ -2,6 +2,7 @@ package com.clinic.academicbridgedemo.services;
 
 import com.clinic.academicbridgedemo.Domain.MentorshipSession;
 import com.clinic.academicbridgedemo.Domain.SessionStatus;
+import com.clinic.academicbridgedemo.Repo.FeedbackRepository;
 import com.clinic.academicbridgedemo.Repo.MentorshipSessionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import java.util.UUID;
 public class MentorshipSessionService {
     @Autowired
     private MentorshipSessionRepository mentorshipSessionRepository;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
 
     public String saveMentorshipSession(MentorshipSession mentorshipSession){
         if (mentorshipSession.getSessionDate().isBefore(LocalDate.now())){
@@ -44,6 +47,9 @@ public class MentorshipSessionService {
 
     public String deleteMentorshipSession(UUID id){
         MentorshipSession mentorshipSession = mentorshipSessionRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentorship session with that ID doesn't exist"));
+        if (feedbackRepository.existsByMentorshipSession(mentorshipSession)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"That mentorship session has feedback entries, delete them first");
+        }
         mentorshipSessionRepository.deleteById(id);
         return "The mentorship is successfully deleted";
     }
