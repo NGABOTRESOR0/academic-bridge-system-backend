@@ -57,7 +57,7 @@ public class StudentService {
     //Delete student
     public String deleteStudent(UUID id){
         if (!studentRepo.existsById(id)){
-            System.out.println("This doctor doesnt exist");
+            System.out.println("This Student doesn't exist");
         }try{
             studentRepo.deleteById(id);
             return "Student successfully deleted";
