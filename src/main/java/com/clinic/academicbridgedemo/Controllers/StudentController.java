@@ -41,7 +41,7 @@ public class StudentController {
    public List<Student> getStudentByMentor(@PathVariable UUID mentorId){
        return studentService.findStudentsByMentor(mentorId);
    }
-   @DeleteMapping("/{id}")
+   @DeleteMapping("/delete/{id}")
     public String deleteStudent(@PathVariable UUID id){
        studentService.deleteStudent(id);
        return "Student deletion completed with success";
