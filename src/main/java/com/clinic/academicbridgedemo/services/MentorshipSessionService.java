@@ -51,7 +51,6 @@ public class MentorshipSessionService {
         MentorshipSession mentorshipSession = mentorshipSessionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentorship session with that ID doesn't exist"));
         MentorshipSession men = new MentorshipSession();
         men.setSessionDate(update.getSessionDate());
-        men.setStatus(update.getStatus());
         men.setTopic(update.getTopic());
         men.setStudent(update.getStudent());
         men.setMentor(update.getMentor());
@@ -67,13 +66,13 @@ public class MentorshipSessionService {
     }
 
     public String updateStatus(UUID id, SessionStatus status){
-        MentorshipSession mentorshipSession = mentorshipSessionRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The session with the given ID isn't found"));
+        MentorshipSession mentorshipSession = mentorshipSessionRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentorship session with that given ID doesn't exist"));
         SessionStatus current = mentorshipSession.getStatus();
 
         if (!isAllowed(current, status))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Cannot change status from " +current +" to " +status);
         mentorshipSession.setStatus(status);
         mentorshipSessionRepository.save(mentorshipSession);
-        return "The Session has been changed successfully";
+        return "Mentorship session status updated successfully";
     }
 }
