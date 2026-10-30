@@ -1,8 +1,10 @@
 package com.clinic.academicbridgedemo.services;
 
+import com.clinic.academicbridgedemo.Domain.Mentor;
 import com.clinic.academicbridgedemo.Domain.MentorshipSession;
 import com.clinic.academicbridgedemo.Domain.SessionStatus;
 import com.clinic.academicbridgedemo.Repo.FeedbackRepository;
+import com.clinic.academicbridgedemo.Repo.MentorRepository;
 import com.clinic.academicbridgedemo.Repo.MentorshipSessionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -22,6 +26,8 @@ public class MentorshipSessionService {
     private MentorshipSessionRepository mentorshipSessionRepository;
     @Autowired
     private FeedbackRepository feedbackRepository;
+    @Autowired
+    private MentorRepository mentorRepository;
 
     public String saveMentorshipSession(MentorshipSession mentorshipSession){
         if (mentorshipSession.getSessionDate().isBefore(LocalDate.now())){
@@ -44,6 +50,18 @@ public class MentorshipSessionService {
     public List<MentorshipSession> getMentorshipSessionsBetween (LocalDate start , LocalDate end){
         return mentorshipSessionRepository.findBySessionDateBetweenOrderBySessionDateAsc(start, end);
     }
+    public Map<String, Long> mentorshipSessionsByStatus(){
+        Map<String , Long> result = new LinkedHashMap<>();
+        for (SessionStatus s: SessionStatus.values()){
+            result.put(s.name(), mentorshipSessionRepository.countByStatus(s));
+        }
+        return result;
+    }
+    public String cancelSessions(UUID mentorId, LocalDate sessionDate){
+        Mentor mentor = mentorRepository.findById(mentorId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentor with that ID is not found"));
+        int cancelled = mentorshipSessionRepository.declineByMentorAndDateExceptHeld(mentorId,sessionDate);
+        return cancelled + " mentorship sessions cancelled";
+    }
 
     public String deleteMentorshipSession(UUID id){
         MentorshipSession mentorshipSession = mentorshipSessionRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentorship session with that ID doesn't exist"));
@@ -53,6 +71,7 @@ public class MentorshipSessionService {
         mentorshipSessionRepository.deleteById(id);
         return "The mentorship is successfully deleted";
     }
+
     public String updateMentorshipSession(UUID id, MentorshipSession update){
         MentorshipSession mentorshipSession = mentorshipSessionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentorship session with that ID doesn't exist"));
         MentorshipSession men = new MentorshipSession();

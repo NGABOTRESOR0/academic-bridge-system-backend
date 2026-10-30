@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -41,6 +42,15 @@ public class MentorshipSessionController {
     public String saveMentorshipsession(@RequestBody MentorshipSession mentorshipSession){
         return mentorshipSessionService.saveMentorshipSession(mentorshipSession);
     }
+    @GetMapping(value = "/stats/by-status")
+    public Map<String, Long> getBystatus(){
+       return mentorshipSessionService.mentorshipSessionsByStatus();
+    }
+    @PatchMapping(value = "/cancel-day")
+    public String cancelSessionByDate(@RequestParam UUID mentorId, @RequestParam ("date")  LocalDate sessionDate){
+        return mentorshipSessionService.cancelSessions(mentorId, sessionDate);
+    }
+
 
     @PutMapping(value = "/update/{id}")
     public String updateMentorshipsession(@PathVariable UUID id,@RequestBody MentorshipSession mentorshipSession){
