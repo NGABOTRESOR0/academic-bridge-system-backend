@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class MentorshipSessionService {
@@ -49,6 +46,10 @@ public class MentorshipSessionService {
     }
     public List<MentorshipSession> getMentorshipSessionsBetween (LocalDate start , LocalDate end){
         return mentorshipSessionRepository.findBySessionDateBetweenOrderBySessionDateAsc(start, end);
+    }
+    public Optional<MentorshipSession> getmentorshipSessionById(UUID id){
+        MentorshipSession mentorshipSession = mentorshipSessionRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentorship session with that id does not exist"));
+        return mentorshipSessionRepository.findById(id);
     }
     public Map<String, Long> mentorshipSessionsByStatus(){
         Map<String , Long> result = new LinkedHashMap<>();

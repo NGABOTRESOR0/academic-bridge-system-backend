@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -26,6 +27,10 @@ public class MentorshipSessionController {
     @GetMapping(value = "/by-status")
     public List<MentorshipSession>  getMentorshipSessionByStatus(@RequestParam SessionStatus status){
        return mentorshipSessionService.getMentorshipSessionsByStatus(status);
+    }
+    @GetMapping(value = "/{id}")
+    public Optional<MentorshipSession> getMentorshipSessionById(@PathVariable UUID id){
+        return mentorshipSessionService.getmentorshipSessionById(id);
     }
 
     @GetMapping(value = "/between")
@@ -50,7 +55,6 @@ public class MentorshipSessionController {
     public String cancelSessionByDate(@RequestParam UUID mentorId, @RequestParam ("date")  LocalDate sessionDate){
         return mentorshipSessionService.cancelSessions(mentorId, sessionDate);
     }
-
 
     @PutMapping(value = "/update/{id}")
     public String updateMentorshipsession(@PathVariable UUID id,@RequestBody MentorshipSession mentorshipSession){

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("/api/feedback-entries")
@@ -23,6 +24,10 @@ public class FeedbackController {
     @GetMapping(value = "/all")
     public List<Feedback> getFeedback(){
         return feedbackService.getAllFeedBacks();
+    }
+    @GetMapping(value = "/{id}")
+    public Optional<Feedback> getFeedbackById(UUID id){
+        return feedbackService.getFeedbackById(id);
     }
     @DeleteMapping(value = "/delete/{id}")
     public String deleteFeedback(@PathVariable UUID id){

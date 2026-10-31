@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static tools.jackson.databind.jsonFormatVisitors.JsonValueFormat.UUID;
@@ -28,6 +29,10 @@ public class MentorController {
     @GetMapping(value = "/by-field")
     public List<Mentor> getMentorsByField(@RequestParam String name){
         return mentorService.getMentorByFields(name);
+    }
+    @GetMapping(value = "/{id}")
+    public Optional<Mentor> getByMentorId(@PathVariable UUID id){
+        return mentorService.getMentorById(id);
     }
     @PutMapping(value = "/{mentorId}/fields/{fieldId}")
     public String addField(@PathVariable UUID mentorId, @PathVariable UUID fieldId){

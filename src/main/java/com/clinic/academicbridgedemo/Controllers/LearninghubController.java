@@ -8,10 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/learninghub")
+@RequestMapping(value = "/api/learning-hubs")
 public class LearninghubController {
     @Autowired
     private LearningHubService learningHubService;
@@ -22,6 +23,10 @@ public class LearninghubController {
     @GetMapping(value = "/free")
     public List<LearningHub> getFreeLearninghubs(){
         return learningHubService.getUnoccupiedLearningHubs();
+    }
+    @GetMapping(value = "/{id}")
+    public Optional<LearningHub> getLearninghubById(@PathVariable UUID id){
+        return learningHubService.findByid(id);
     }
 
     @PostMapping(value = "/save")

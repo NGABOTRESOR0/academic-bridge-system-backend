@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.text.Format;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -17,7 +17,11 @@ public class FieldService {
     private FieldRepository fieldRepository;
 
     public List<Field> getFields(){
-       return fieldRepository.findAll();
+        return fieldRepository.findAll();
+    }
+    public Optional<Field> getFieldById(UUID id){
+        Field field = fieldRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The field with that ID doesn't exist"));
+        return fieldRepository.findById(id);
     }
     public List<Field> getFreeFields(){
         return fieldRepository.findFreeFields();

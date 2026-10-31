@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,10 @@ public class LearningHubService {
     }
     public List<LearningHub> getUnoccupiedLearningHubs(){
         return learningHubRepository.findFreeLearningHubs();
+    }
+    public Optional<LearningHub> findByid(UUID id){
+        LearningHub learningHub = learningHubRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The learning hub with that ID doesn't exist"));
+        return learningHubRepository.findById(id);
     }
     public String saveLearningHub(LearningHub learningHub){
         learningHubRepository.save(learningHub);

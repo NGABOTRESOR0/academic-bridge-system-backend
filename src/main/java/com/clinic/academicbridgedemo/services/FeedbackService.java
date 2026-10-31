@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,6 +30,10 @@ public class FeedbackService {
     }
     public List<Feedback> getFeedbackHistory(String regNumber){
         return feedbackRepository.findByMentorshipSession_Student_RegNumberOrderByGivenDateDesc(regNumber);
+    }
+    public Optional<Feedback> getFeedbackById(UUID id){
+        Feedback feedback = feedbackRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The FeedBack with that id does not exist"));
+        return feedbackRepository.findById(id);
     }
     //Saving
     public String saveFeedBack(UUID mentorshipSessionId, Feedback feedback){

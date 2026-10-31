@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("/api/fields")
@@ -17,6 +18,10 @@ public class FieldController {
     @GetMapping(value = "/all")
     public List<Field> getFields(){
         return fieldService.getFields();
+    }
+    @GetMapping(value = "/{id}")
+    public Optional<Field> getFieldById(@PathVariable UUID id){
+        return fieldService.getFieldById(id);
     }
     @GetMapping(value = "unused")
     public List<Field> getFreeFields(){return fieldService.getFreeFields(); }

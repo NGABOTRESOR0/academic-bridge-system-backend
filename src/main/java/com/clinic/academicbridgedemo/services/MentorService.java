@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -80,5 +81,9 @@ public class MentorService {
     }
     public List<Mentor> getMentorByFields(String name){
        return mentorRepository.findByFieldNameIgnoreCase(name);
+    }
+    public Optional<Mentor> getMentorById(UUID id){
+        Mentor mentor = mentorRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The mentor with that id does not exist"));
+        return mentorRepository.findById(id);
     }
 }

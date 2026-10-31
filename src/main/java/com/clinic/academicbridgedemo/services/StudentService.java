@@ -34,6 +34,11 @@ public class StudentService {
         return studentRepo.findAll();
     }
 
+    public Student getStudentById(UUID id){
+        Student student = studentRepo.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"The Student with that id does not exist"));
+        return studentRepo.getById(id);
+    }
+
     public List<Student> getStudentsByLastName(String lastName){
         return studentRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }

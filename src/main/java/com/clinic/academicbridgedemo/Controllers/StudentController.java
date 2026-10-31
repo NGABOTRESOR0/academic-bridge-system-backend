@@ -28,6 +28,10 @@ public class StudentController {
     public List<Student> getAllStudents(){
        return studentService.getAllStudents();
    }
+   @GetMapping(value = "/{id}")
+   public Student getStudentById(@PathVariable UUID id){
+       return studentService.getStudentById(id);
+   }
    @PutMapping(value = "/update/{id}")
     public String updateStudent(@PathVariable UUID id,@RequestBody Student updated){
        studentService.updateStudent(id, updated);
