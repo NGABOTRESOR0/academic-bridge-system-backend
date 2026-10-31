@@ -1,0 +1,482 @@
+{
+  "info": {
+    "name": "academic-bridge-system-midterm",
+    "description": "Academic Bridge System mid-term - Ngabo Tresor (27209). One request per requirement, named by its ID. A1 has no endpoint (entities only).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "A2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentorship-sessions/save",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentorship-sessions",
+            "save"
+          ]
+        },
+        "description": "A2 - Save. Expect 201 \"Mentorship session saved successfully\". Other CRUD endpoints (same pattern): GET /all, GET /{id}, PUT /update/{id}, DELETE /delete/{id} for fields, learning-hubs, mentors, students, mentorship-sessions. Unknown id -> 404.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"mentor\": {\n        \"id\": \"d81c119c-6118-41af-a408-9421cb06defc\"\n    },\n    \"student\": {\n        \"id\": \"d981a1bc-0a41-44b7-b156-2d20fda05db5\"\n    },\n    \"sessionDate\": \"2026-12-18\",\n    \"topic\": \"Spring Boot review\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/by-last-name?lastName=ngabo",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "students",
+            "by-last-name"
+          ],
+          "query": [
+            {
+              "key": "lastName",
+              "value": "ngabo"
+            }
+          ]
+        },
+        "description": "B1 - DERIVED. Students with lastName ignoring case, sorted by firstName A-Z. Empty list if none."
+      },
+      "response": []
+    },
+    {
+      "name": "B2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentorship-sessions/by-status?status=REQUESTED",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentorship-sessions",
+            "by-status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "REQUESTED"
+            }
+          ]
+        },
+        "description": "B2 - DERIVED. Sessions in that status, earliest sessionDate first."
+      },
+      "response": []
+    },
+    {
+      "name": "B3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentorship-sessions/between?start=2026-10-01&end=2026-10-31",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentorship-sessions",
+            "between"
+          ],
+          "query": [
+            {
+              "key": "start",
+              "value": "2026-10-01"
+            },
+            {
+              "key": "end",
+              "value": "2026-10-31"
+            }
+          ]
+        },
+        "description": "B3 - DERIVED (Between). Both dates inclusive, ordered by sessionDate."
+      },
+      "response": []
+    },
+    {
+      "name": "C1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentors/by-field?name=software",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentors",
+            "by-field"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "software"
+            }
+          ]
+        },
+        "description": "C1 - JPQL. Mentors holding the field, case-insensitive."
+      },
+      "response": []
+    },
+    {
+      "name": "C2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/learning-hubs/free",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "learning-hubs",
+            "free"
+          ]
+        },
+        "description": "C2 - JPQL. Learning hubs no mentor occupies, sorted by hubNumber."
+      },
+      "response": []
+    },
+    {
+      "name": "C3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/fields/unused",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "fields",
+            "unused"
+          ]
+        },
+        "description": "C3 - JPQL (IS EMPTY). Fields no mentor holds (Business)."
+      },
+      "response": []
+    },
+    {
+      "name": "C4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/of-mentor/d81c119c-6118-41af-a408-9421cb06defc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "students",
+            "of-mentor",
+            "d81c119c-6118-41af-a408-9421cb06defc"
+          ]
+        },
+        "description": "C4 - JPQL (DISTINCT). Students of the mentor, listed once. Unknown id -> 404 \"The mentor with that id does not exist\"."
+      },
+      "response": []
+    },
+    {
+      "name": "D1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentorship-sessions/save",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentorship-sessions",
+            "save"
+          ]
+        },
+        "description": "D1 - Safe saving. Body has status HELD on purpose: saved session must come back REQUESTED. Error cases: sessionDate in the past -> 400 \"Mentorship session date cannot be in the past\"; same mentor + same date, status not DECLINED (e.g. Paul on 2026-11-20) -> 409 \"Mentor already has a session on that date\". Sending this request twice gives 409 the second time.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"mentor\": {\n        \"id\": \"895aa70a-940c-48c1-a488-7ef4e4f6e76f\"\n    },\n    \"student\": {\n        \"id\": \"6b009145-59ec-4454-8aa0-feeb0156e66b\"\n    },\n    \"sessionDate\": \"2026-12-22\",\n    \"status\": \"HELD\",\n    \"topic\": \"Networking basics\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentorship-sessions/c8b7a421-d187-4025-a361-dbd76cb80ee0/status?status=ACCEPTED",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentorship-sessions",
+            "c8b7a421-d187-4025-a361-dbd76cb80ee0",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "ACCEPTED"
+            }
+          ]
+        },
+        "description": "D2 - Status flow. REQUESTED -> ACCEPTED is allowed: 200 \"Mentorship session status updated successfully\". Error cases: send it again with status=REQUESTED -> 400 \"Cannot change status from ACCEPTED to REQUESTED\"; unknown id -> 404 \"The mentorship session with that id does not exist\"."
+      },
+      "response": []
+    },
+    {
+      "name": "D3",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentors/1aa5ba94-ce57-4697-a5ad-103f2094cbd4/fields/01ba28fd-326b-443d-aa29-bdef9afda41e",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentors",
+            "1aa5ba94-ce57-4697-a5ad-103f2094cbd4",
+            "fields",
+            "01ba28fd-326b-443d-aa29-bdef9afda41e"
+          ]
+        },
+        "description": "D3 - Adds Networking to mentor Byiringiro James (holds Data Science). 200 \"Field added to the mentor\". Second call -> 409 \"The mentor already has that field\". Unknown mentor -> 404 \"The mentor with that id does not exist\"; unknown field -> 404 \"That field does not exist\"."
+      },
+      "response": []
+    },
+    {
+      "name": "D4",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentors/1aa5ba94-ce57-4697-a5ad-103f2094cbd4/learning-hub?hubNumber=1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentors",
+            "1aa5ba94-ce57-4697-a5ad-103f2094cbd4",
+            "learning-hub"
+          ],
+          "query": [
+            {
+              "key": "hubNumber",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "D4 - Moves the mentor to hub 1 (free in the seed data). 200 \"Learning hub changed successfully\". hubNumber=4 (taken by Manasseh) -> 409 \"That learning hub is taken by another mentor\"; hubNumber=99 -> 404 \"The learning hub with that hubNumber does not exist\". Check C2 afterwards."
+      },
+      "response": []
+    },
+    {
+      "name": "E1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/feedback-entries/save?mentorshipSessionId=db5d74f5-63fe-49f2-9981-7ca82f57485f",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "feedback-entries",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "mentorshipSessionId",
+              "value": "db5d74f5-63fe-49f2-9981-7ca82f57485f"
+            }
+          ]
+        },
+        "description": "E1 - Feedback for a HELD session. 201 \"Feedback saved successfully\". Session not HELD (e.g. c8b7a421-d187-4025-a361-dbd76cb80ee0) -> 400 \"Feedback entries are only for HELD mentorship sessions\"; unknown id -> 404 \"The mentorship session with that id does not exist\".",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"skillAssessed\": \"Problem solving\",\n    \"comment\": \"Strong reasoning, needs more practice with Git\",\n    \"score\": 8\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/feedback-entries/student/27204",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "feedback-entries",
+            "student",
+            "27204"
+          ]
+        },
+        "description": "E2 - JPQL. Feedback of the student with that regNumber, newest givenDate first. Empty list when none. regNumber is a PATH variable here (not ?regNumber=)."
+      },
+      "response": []
+    },
+    {
+      "name": "E3",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/feedback-entries/delete/883c74c0-9840-480e-ad85-932dc30ff739",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "feedback-entries",
+            "delete",
+            "883c74c0-9840-480e-ad85-932dc30ff739"
+          ]
+        },
+        "description": "E3 - 200 \"Feedback deleted successfully\"; unknown id -> 404 \"The feedback with that id does not exist\". Also test DELETE /api/mentorship-sessions/delete/561304aa-e180-4448-baa1-5eb60fefe832 (has feedback) -> 409 \"That mentorship session has feedback entries, delete them first\"."
+      },
+      "response": []
+    },
+    {
+      "name": "F1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentorship-sessions/stats/by-status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentorship-sessions",
+            "stats",
+            "by-status"
+          ]
+        },
+        "description": "F1 - JPQL GROUP BY. List<Object[]> e.g. [[\"REQUESTED\",4],[\"HELD\",3]]. Statuses with zero sessions do not appear."
+      },
+      "response": []
+    },
+    {
+      "name": "F2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/mentorship-sessions/cancel-day?mentorId=9344fe4a-a7f5-4154-861c-7de3634b827e&date=2026-10-20",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "mentorship-sessions",
+            "cancel-day"
+          ],
+          "query": [
+            {
+              "key": "mentorId",
+              "value": "9344fe4a-a7f5-4154-861c-7de3634b827e"
+            },
+            {
+              "key": "date",
+              "value": "2026-10-20"
+            }
+          ]
+        },
+        "description": "F2 - One UPDATE query. Sets the mentor's sessions on that date to DECLINED except HELD. Returns e.g. \"3 mentorship sessions cancelled\". Unknown mentor -> 404."
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus-Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/dashboard/summary",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "dashboard",
+            "summary"
+          ]
+        },
+        "description": "Bonus +5 - One JSON object with students, mentors, freeHubs, sessionsToday, requested, feedbackEntries."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
