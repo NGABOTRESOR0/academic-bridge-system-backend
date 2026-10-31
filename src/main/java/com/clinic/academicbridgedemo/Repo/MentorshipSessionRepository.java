@@ -18,7 +18,7 @@ public interface MentorshipSessionRepository extends JpaRepository<MentorshipSes
     public List<MentorshipSession> findBySessionDateBetweenOrderBySessionDateAsc(LocalDate start, LocalDate end);
     boolean existsByMentorIdAndSessionDateAndStatusNot(UUID mentorId, LocalDate sessionDate, SessionStatus status);
     long countByStatus(SessionStatus status);
-    //long countByStatusInAndSessionDate(Collection<SessionStatus> statuses, LocalDate sessionDate);
+    long countBySessionDate(LocalDate sessionDate);
     @Modifying
     @Transactional
     @Query("UPDATE MentorshipSession m SET m.status = com.clinic.academicbridgedemo.Domain.SessionStatus.DECLINED WHERE m.mentor.id =:mentorId AND m.sessionDate = :date AND m.status <> com.clinic.academicbridgedemo.Domain.SessionStatus.HELD AND m.status<> com.clinic.academicbridgedemo.Domain.SessionStatus.DECLINED")
